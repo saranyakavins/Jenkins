@@ -1,14 +1,21 @@
 pipeline {
   agent none
   stages {
-    stage('Build Java application') {
+    stage('Back-end') {
+      agent{
+        docker { image 'maven:3.8.1-adoptopenjdk-11' }
+      }
       steps{
-        sh 'javac HelloWorld.java'
+        sh 'mvn --version'
+        sh 'mvn clean install'
       }
     }
-    stage('Run Java application') {
+    stage('Front-end') {
+      agent {
+        docker { image 'node:16-alpine' }
+      }
       steps{
-        sh 'java HelloWorld'
+        sh 'node --version'
       }
       
     }
